@@ -1,0 +1,29 @@
+body {
+    font-family: 'Arial', sans-serif;
+    padding-top: 70px; // If using a fixed navbar
+}
+
+.product-card {
+    transition: transform .2s; // For a little hover effect
+}
+
+.product-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.08);
+}
+
+.product-card img {
+    aspect-ratio: 4/3; // Maintain aspect ratio for product images
+    object-fit: cover;
+}
+
+.product-detail-img {
+    border: 1px solid #dee2e6; // Light border for product detail image
+}
+
+.footer {
+    background-color: #343a40; // Dark footer
+    color: #f8f9fa; // Light text
+    padding: 20px 0;
+    margin-top: 30px;
+}

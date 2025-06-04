@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: html(pageTitle='Edit Product', content=~{::content})}">
+<head>
+    <!-- Head content is in layout.html -->
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="container mt-5">
+            <h2>View Product: <span th:text="${product.name}">Product Name</span></h2>
+            <hr>
+            <!-- Form to edit an existing product -->
+            <form th:action="@{/admin/products/update/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data">
+                <!-- Hidden input for ID if not part of the action URL, but it is here -->
+                <!-- <input type="hidden" th:field="*{id}" /> -->
+
+                <!-- Display general errors -->
+                <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Global error message</p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" readonly="true">
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Name Error</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" rows="3" readonly="true"></textarea>
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger">Description Error</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label">Price ($)</label>
+                        <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" readonly="true" min="0">
+                        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger">Price Error</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="available_quantity" class="form-label">Available Quantity</label>
+                        <input  type="number" class="form-control" id="available_quantity" th:field="*{available_quantity}" readonly="true" min="0">
+                        <div th:if="${#fields.hasErrors('available_quantity')}" th:errors="*{available_quantity}" class="text-danger">available_quantity Error</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imageUrl" class="form-label">Image URL (Optional)</label>
+                    <input type="url" class="form-control" id="imageUrl" th:field="*{imageUrl}" placeholder="https://example.com/image.jpg" readonly="true">
+                    <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger">Image URL Error</div>
+                    <div th:if="*{imageUrl != null and !#strings.isEmpty(imageUrl)}">
+                        <img th:src="*{imageUrl}" alt="Current Image" class="mt-2 img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                    </div>
+                </div>
+
+                <!-- OR, for file upload (more complex backend handling needed) -->
+                <!--
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label">New Product Image (Optional)</label>
+                    <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/png, image/jpeg, image/gif">
+                </div>
+                -->
+
+                <a th:href="@{/admin/products}" class="btn btn-secondary">Go Back</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
